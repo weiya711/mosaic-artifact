@@ -82,21 +82,38 @@ taco_tensor_t * convert_coo_to_csr(taco_tensor_t *COO) {
     return CSR;
 }
 
-void mkl_sparse_s_mm_internal(int m, taco_tensor_t * A, taco_tensor_t * b, float * c)
-{ sparse_matrix_t A_csr;
- struct matrix_descr desc;
- desc.type = SPARSE_MATRIX_TYPE_GENERAL;
- int*  A_pos = (int*)(A->indices[1][0]); 
- mkl_sparse_s_create_csr(&A_csr, SPARSE_INDEX_BASE_ZERO, m, m, A_pos, A_pos+1, (int*)A->indices[1][1], (float*)A->vals);
- mkl_sparse_s_mm(SPARSE_OPERATION_NON_TRANSPOSE, (float)1, A_csr, desc, SPARSE_LAYOUT_ROW_MAJOR, (float*)b->vals, m, m, 0, c, m);
+void mkl_sparse_s_mm_internal(int m, taco_tensor_t * A, taco_tensor_t * b, float * c) {
+	sparse_matrix_t A_csr;
+	struct matrix_descr desc;
+	desc.type = SPARSE_MATRIX_TYPE_GENERAL;
+	int*  A_pos = (int*)(A->indices[1][0]); 
+	mkl_sparse_s_create_csr(&A_csr, SPARSE_INDEX_BASE_ZERO, m, m, A_pos, A_pos+1, (int*)A->indices[1][1], (float*)A->vals);
+	mkl_sparse_s_mm(SPARSE_OPERATION_NON_TRANSPOSE, (float)1, A_csr, desc, SPARSE_LAYOUT_ROW_MAJOR, (float*)b->vals, m, m, 0, c, m);
 }
 
-void wrapper_convert(int m, taco_tensor_t * A, taco_tensor_t * B, float * C){
-    taco_tensor_t *CSR_A = convert_coo_to_csr(A);
-     printf("out1\n");
-    mkl_sparse_s_mm_internal(m, CSR_A, B, C);
-    printf("out\n");
-    free(CSR_A->indices[1][0]);
+void wrapper_convert(int m, taco_tensor_t * A, taco_tensor_t * B, float * C) {
+	taco_tensor_t *CSR_A = convert_coo_to_csr(A);
+	printf("out1\n");
+	mkl_sparse_s_mm_internal(m, CSR_A, B, C);
+	printf("out\n");
+	free(CSR_A->indices[1][0]);
+}
+
+void sgemv_mkl_internal(int dim, float * A_vals, float * b_vals, float * d_vals) {
+    MKL_INT v2422 = dim;
+    MKL_INT v2421 = 1;
+    float zero = 0;
+    float v2420 = 1;
+    sgemv("n", &v2422, &v2422, &v2420, A_vals, &v2422, b_vals, &v2421, &zero, d_vals, &v2421);
+}
+void mkl_scsrgemv_internal(int m, taco_tensor_t * A, taco_tensor_t * b, taco_tensor_t * c)
+{
+	sparse_matrix_t A_csr;
+	struct matrix_descr desc;
+	desc.type = SPARSE_MATRIX_TYPE_GENERAL;
+	int*  A_pos = (int*)(A->indices[1][0]);
+	mkl_sparse_s_create_csr(&A_csr, SPARSE_INDEX_BASE_ZERO, m, m, A_pos, A_pos+1, (int*)A->indices[1][1], (float*)A->vals);
+	mkl_sparse_s_mv(SPARSE_OPERATION_NON_TRANSPOSE, (float)1, A_csr, desc, (float*)b->vals, (float)0, (float*)c->vals);
 }
 
 #endif

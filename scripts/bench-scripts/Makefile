@@ -50,7 +50,7 @@ run-fig21:
 draw-fig13:
 	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
 	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/gemv/result \
-	--type=vary_dim --systems=mkl,taco,tblis,gsl,blas \
+	--type=vary_dim --systems=mkl,taco \
 	--name=fig13 --start_dim=100 --step_dim=250 --unit=ms
 	cp ./gemv/result/fig13.pdf figs/
 	
@@ -58,7 +58,7 @@ draw-fig13:
 draw-fig14:
 	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
 	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/symmgemv/result \
-	--type=vary_dim --systems=mkl,taco,tblis,gsl,blas \
+	--type=vary_dim --systems=mkl,taco \
 	--name=fig14 --start_dim=100 --step_dim=250 --unit=ms
 	cp ./symmgemv/result/fig14.pdf figs/
 
@@ -73,14 +73,14 @@ draw-fig15:
 draw-fig16:
 	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
 	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/sddmm_varSparsity/result \
-	--type=vary_sparse --systems=blas,taco,dot_mkl,gemv_gsl,gemv_mkl,mkl,tblis \
+	--type=vary_sparse --systems=taco,dot_mkl,gemv_mkl,mkl \
 	--name=fig16 --sparsity=0.00078125,0.0015625,0.003125,0.00625,0.0125,0.025,0.05,0.1 --unit=us
 	cp ./sddmm_varSparsity/result/fig16.pdf figs/
 
 draw-fig17:
 	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
 	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/blockedSparse_4T_5/result \
-	--type=vary_dim --systems=mkl,gsl,taco,blas \
+	--type=vary_dim --systems=mkl,taco \
 	--name=fig17 --start_dim=10 --step_dim=10 --unit=ms
 	cp ./blockedSparse_4T_5/result/fig17.pdf figs/
 
@@ -95,14 +95,14 @@ draw-fig18:
 draw-fig19:
 	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
 	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/sddmm/result \
-	--type=vary_dim --systems=mkl,gsl,dot_blas,taco,tblis,gemv_blas,blas \
+	--type=vary_dim --systems=mkl,taco,gemv_mkl \
 	--name=fig19 --start_dim=100 --step_dim=200 --unit=ms
 	cp ./sddmm/result/fig19.pdf figs/
 
 draw-fig20:
 	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
 	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/blockedSparse_4T/result \
-	--type=vary_dim --systems=mkl,gsl,taco,blas \
+	--type=vary_dim --systems=mkl,taco \
 	--name=fig20 --start_dim=10 --step_dim=10 --unit=ms
 	cp ./blockedSparse_4T/result/fig20.pdf figs/
 
