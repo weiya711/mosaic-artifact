@@ -126,3 +126,9 @@ draw-fig22:
 
 stardust-csv: set-up-env
 	bash $(PATH_TO_MOSAIC_ARTIFACT)/taco-to-spatial/scripts/gen_csv_mosaic.sh
+
+run-onyx-spmv:
+	./suitesparse_onyx/spmv/bench.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-onyx-spmm:
+	./suitesparse_onyx/spmm/bench.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt

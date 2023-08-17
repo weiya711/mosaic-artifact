@@ -91,6 +91,30 @@ void mkl_sparse_s_mm_internal(int m, taco_tensor_t * A, taco_tensor_t * b, float
 	mkl_sparse_s_mm(SPARSE_OPERATION_NON_TRANSPOSE, (float)1, A_csr, desc, SPARSE_LAYOUT_ROW_MAJOR, (float*)b->vals, m, m, 0, c, m);
 }
 
+void mkl_sparse_s_spmm_internal(int m, int n, taco_tensor_t * A, taco_tensor_t * B, taco_tensor_t * C) {
+	sparse_matrix_t A_csr;
+	struct matrix_descr desc;
+	desc.type = SPARSE_MATRIX_TYPE_GENERAL;
+	int*  A_pos = (int*)(A->indices[1][0]); 
+	mkl_sparse_s_create_csr(&A_csr, SPARSE_INDEX_BASE_ZERO, m, n, A_pos, A_pos+1, (int*)A->indices[1][1], (float*)A->vals);
+
+	sparse_matrix_t B_csc;
+	int*  B_pos = (int*)(B->indices[1][0]); 
+	mkl_sparse_s_create_csc(&B_csc, SPARSE_INDEX_BASE_ZERO, n, m, B_pos, B_pos+1, (int*)B->indices[1][1], (float*)B->vals);
+	
+	mkl_sparse_s_spmmd(SPARSE_OPERATION_NON_TRANSPOSE, A_csr, B_csc, SPARSE_LAYOUT_ROW_MAJOR, (float*)C->vals, m);
+
+	// sparse_matrix_t C_csr;
+	// mkl_sparse_spmm(SPARSE_OPERATION_NON_TRANSPOSE, A_csr, B_csc, &C_csr);
+
+//	int tempM, tempN;
+//	int* C_pos = (int*)(C->indices[1][0]);
+//	int* C_ind = (int*)(C->indices[1][1]);
+//	float* C_vals = (float*)(C->vals);
+//	sparse_index_base_t indBase = 0;
+//	mkl_sparse_s_export_csr(C_csr, &indBase, &tempM, &tempN, &C_pos, &C_pos+1, &C_ind, &C_vals); 
+}
+
 void wrapper_convert(int m, taco_tensor_t * A, taco_tensor_t * B, float * C) {
 	taco_tensor_t *CSR_A = convert_coo_to_csr(A);
 	printf("out1\n");
