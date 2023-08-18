@@ -11,7 +11,7 @@ export LIB_PATH=" -L/usr/lib/intel64 -Wl,-R/usr/lib/mkl/intel64"
 # Seq w/ AVX
 # export DYNAMIC_LIB_FILES="-Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_avx512 -lmkl_core -lpthread -lm -ldl"
 # Seq w/o AVX
-export DYNAMIC_LIB_FILES="-Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_del -lmkl_core -lpthread -lm -ldl"
+export DYNAMIC_LIB_FILES="-Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_def -lmkl_core -lpthread -lm -ldl"
 
 export INCLUDE_HEADERS="#include \"mkl.h\"
 "
