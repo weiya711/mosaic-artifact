@@ -1,7 +1,7 @@
 #!/bin/bash
 systems=("mkl" "taco")
 
-bench_name=spmv
+bench_name=elemadd
 
 mkdir -p $PATH_TO_MOSAIC_ARTIFACT/scripts/bench-scripts/suitesparse_onyx/$bench_name/result/
 

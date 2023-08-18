@@ -1,5 +1,5 @@
 #!/bin/bash
-systems=("mkl")
+systems=("mkl" "taco")
 
 bench_name=spmm
 

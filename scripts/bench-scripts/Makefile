@@ -132,3 +132,7 @@ run-onyx-spmv:
 
 run-onyx-spmm:
 	./suitesparse_onyx/spmm/bench.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-onyx-elemadd:
+	./suitesparse_onyx/elemadd/bench.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
