@@ -127,12 +127,57 @@ draw-fig22:
 stardust-csv: set-up-env
 	bash $(PATH_TO_MOSAIC_ARTIFACT)/taco-to-spatial/scripts/gen_csv_mosaic.sh
 
-run-onyx-spmv:
-	./suitesparse_onyx/spmv/bench.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+run-spmv-seq:
+	./suitesparse_onyx/spmv/bench_seq_noavx.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
 
-run-onyx-spmm:
-	./suitesparse_onyx/spmm/bench.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+run-spmv-omp:
+	./suitesparse_onyx/spmv/bench_omp.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
 
-run-onyx-elemadd:
-	./suitesparse_onyx/elemadd/bench.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+run-spmm-seq:
+	./suitesparse_onyx/spmm/bench_seq_noavx.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-spmm-omp:
+	./suitesparse_onyx/spmm/bench_omp.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-elemadd-seq:
+	./suitesparse_onyx/elemadd/bench_seq_noavx.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-elemadd-omp:
+	./suitesparse_onyx/elemadd/bench_omp.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-residual-seq:
+	./suitesparse_onyx/residual/bench_seq_noavx.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-residual-omp:
+	./suitesparse_onyx/residual/bench_omp.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-mattransmul-seq:
+	./suitesparse_onyx/mattransmul/bench_seq_noavx.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-mattransmul-omp:
+	./suitesparse_onyx/mattransmul/bench_omp.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-plus3-seq:
+	./suitesparse_onyx/plus3/bench_seq_noavx.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+run-plus3-omp:
+	./suitesparse_onyx/plus3/bench_omp.sh /sam/scripts/tensor_names/onyx_eval_final_suitesparse.txt
+
+draw-spmv:
+	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
+	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/suitesparse_onyx/spmv/result/seq-noavx \
+	--type=suitesparse --systems=mkl,taco \
+	--name=seq-noavx-spmv --unit=us
+
+draw-spmv-omp:
+	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
+	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/suitesparse_onyx/spmv/result/omp/ \
+	--type=suitesparse --systems=mkl,taco \
+	--name=omp-spmv --unit=us
+
+draw-spmm-omp:
+	python3 $(PATH_TO_MOSAIC_ARTIFACT)/mosaic-benchmarks/run-figure.py \
+	--data_dir=$(PATH_TO_MOSAIC_ARTIFACT)/scripts/bench-scripts/suitesparse_onyx/spmm/result/omp/ \
+	--type=suitesparse --systems=mkl,taco \
+	--name=omp-spmm --unit=us
 

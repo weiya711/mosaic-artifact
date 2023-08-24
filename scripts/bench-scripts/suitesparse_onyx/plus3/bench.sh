@@ -1,7 +1,7 @@
 #!/bin/bash
 systems=("mkl" "taco")
 
-bench_name=elemadd
+bench_name=plus3
 
 mkdir -p $PATH_TO_MOSAIC_ARTIFACT/scripts/bench-scripts/suitesparse_onyx/$bench_name/result/
 

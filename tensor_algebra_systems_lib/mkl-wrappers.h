@@ -130,6 +130,7 @@ void sgemv_mkl_internal(int dim, float * A_vals, float * b_vals, float * d_vals)
     float v2420 = 1;
     sgemv("n", &v2422, &v2422, &v2420, A_vals, &v2422, b_vals, &v2421, &zero, d_vals, &v2421);
 }
+
 void mkl_scsrgemv_internal(int m, taco_tensor_t * A, taco_tensor_t * b, taco_tensor_t * c)
 {
 	sparse_matrix_t A_csr;
@@ -138,6 +139,14 @@ void mkl_scsrgemv_internal(int m, taco_tensor_t * A, taco_tensor_t * b, taco_ten
 	int*  A_pos = (int*)(A->indices[1][0]);
 	mkl_sparse_s_create_csr(&A_csr, SPARSE_INDEX_BASE_ZERO, m, m, A_pos, A_pos+1, (int*)A->indices[1][1], (float*)A->vals);
 	mkl_sparse_s_mv(SPARSE_OPERATION_NON_TRANSPOSE, (float)1, A_csr, desc, (float*)b->vals, (float)0, (float*)c->vals);
+}
+
+// c_vals = a_vals - b_vals
+void mkl_VsSub_internal(int dim, float* a_vals, float* b_vals, float* c_vals) {
+    MKL_INT dimA = dim;
+    MKL_INT inc = 1;
+
+    vsSub(dimA, a_vals, b_vals, c_vals);
 }
 
 #endif
